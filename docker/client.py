@@ -256,7 +256,12 @@ class Client(
                     data_list = data.split("\r\n")
                     # load and yield each line seperately
                     for data in data_list:
-                        data = json.loads(data)
+                        try:
+                            data = json.loads(data)
+                        except Exception:
+                            raise errors.DockerException(
+                                '"{0}" is not valid JSON.'
+                            )
                         yield data
                 else:
                     yield data
